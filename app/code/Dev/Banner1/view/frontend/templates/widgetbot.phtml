@@ -1,0 +1,32 @@
+<link rel="stylesheet" type="text/css"
+      href="<?php echo $block->getViewFileUrl('Dev_Banner1::css/jquery.bxslider.css') ?>"/>
+
+<ul class="bxslider1">
+    <?php
+    $save = $block->bottomBanner();
+    $data = $save["data"];
+    $auto = $this->getData('auto') ? "true" : "false";
+
+    foreach ($data as $d) {
+        ?>
+        <li>
+            <a href="<?php echo $d['name'] ?>">
+                <img width="200" height="250"
+                     src="<?php echo $this->getData('mediaURL') . $d['url_image']; ?>"
+                     style=/>
+            </a>
+        </li>
+        <?php
+    }
+    ?>
+</ul>
+
+<script>
+    require(['jquery', 'bxslider'], function ($) {
+        $(function () {
+            $('.bxslider1').bxSlider({
+                auto: <?php echo $auto ?>
+            });
+        });
+    });
+</script>

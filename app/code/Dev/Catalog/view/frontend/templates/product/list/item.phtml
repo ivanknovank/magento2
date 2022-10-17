@@ -1,0 +1,5 @@
+/** @var $viewModel /Magento/Catalog/ViewModel/Product/Listing/PreparePostData */
+<?=
+$viewModel = $block->getViewModel();
+$postArray = $viewModel->getPostData($block->escapeUrl($block->getAddToCartUrl($_item)), ['product' => $_item->getEntityId()]);
+?>

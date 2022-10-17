@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Dev_HelloWorld::helloworld" title="Hello World" module="Dev_HelloWorld" sortOrder="41"
+             resource="Dev_HelloWorld::menu"/>
+        <add id="Dev_HelloWorld::parent" title="Hello World Test" module="Dev_HelloWorld" sortOrder="10"
+             resource="Dev_HelloWorld::menu" parent="Dev_HelloWorld::helloworld"/>
+        <add id="Dev_HelloWorld::post" title="Hellooo" module="Dev_HelloWorld" sortOrder="10" action="dev_helloworld/helloworld"
+             resource="Dev_HelloWorld::post" parent="Dev_HelloWorld::parent"/>
+        <add id="Dev_HelloWorld::configuration" title="Configuration" module="Dev_HelloWorld" sortOrder="20"
+             parent="Dev_HelloWorld::parent" action="adminhtml/system_config" resource="Dev_HelloWorld::parent"/>
+    </menu>
+</config>

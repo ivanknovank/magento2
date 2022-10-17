@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Dev_Banner1::banner1" title="Banner1" module="Dev_Banner1" sortOrder="41"
+             resource="Dev_Banner1::menu"/>
+        <add id="Dev_Banner1::parent" title="Banner Post" module="Dev_Banner1" sortOrder="10"
+             resource="Dev_Banner1::menu" parent="Dev_Banner1::banner1"/>
+        <add id="Dev_Banner1::post" title="Banner " module="Dev_Banner1" sortOrder="10" action="banner1/post/index"
+             resource="Dev_Banner1::post" parent="Dev_Banner1::parent"/>
+        <add id="Dev_Banner1::configuration" title="Configuration" module="Dev_Banner1" sortOrder="20"
+             parent="Dev_Banner1::parent" action="adminhtml/system_config" resource="Dev_Banner1::parent"/>
+    </menu>
+</config>

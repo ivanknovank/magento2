@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="expert" resource="default" engine="innodb" comment="Expert Table">
+        <column xsi:type="int" name="expert_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Expert ID"/>
+        <column xsi:type="varchar" name="name" nullable="false" length="64" comment="Name"/>
+        <column xsi:type="varchar" name="position" nullable="false" length="64" comment="Position"/>
+        <column xsi:type="varchar" name="work_unit" nullable="false" length="64" comment="Work Unit"/>
+        <column xsi:type="text" name="image" nullable="false" comment="Image"/>
+        <column xsi:type="text" name="name_image" nullable="false" comment="Name Image"/>
+        <column xsi:type="text" name="url_image" nullable="false" comment="URL Image"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="expert_id"/>
+        </constraint>
+    </table>
+    <table name="expert_review" resource="default" engine="innodb" comment="Expert Review Table">
+        <column xsi:type="int" name="expert_review_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Expert Review ID"/>
+        <column xsi:type="varchar" name="title" nullable="false" length="64" comment="Title"/>
+        <column xsi:type="text" name="detail" nullable="false" comment="Detail"/>
+        <column xsi:type="text" name="short_description" nullable="false" comment="Short Description"/>
+        <column xsi:type="text" name="video" nullable="false"  comment="Video"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="expert_review_id"/>
+        </constraint>
+    </table>
+</schema>

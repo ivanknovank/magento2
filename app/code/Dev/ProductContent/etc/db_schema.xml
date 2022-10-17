@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="product_content" resource="default" engine="innodb" comment="Product Content Table">
+        <column xsi:type="int" name="product_content_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Product Content ID"/>
+        <column xsi:type="varchar" name="entity_id" nullable="false" length="64" comment="Product ID"/>
+        <column xsi:type="text" name="content" comment="Content"/>
+        <column xsi:type="text" name="product_sku" comment="Product Sku"/>
+        <column xsi:type="text" name="product_name" comment="Product Name"/>
+        <column xsi:type="varchar" name="status" nullable="false" length="64" comment="Status"/>
+        <column xsi:type="varchar" name="display_position" nullable="false" length="64" comment="Display Position"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="product_content_id"/>
+        </constraint>
+    </table>
+</schema>

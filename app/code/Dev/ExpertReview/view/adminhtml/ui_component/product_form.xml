@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <fieldset name="expert_review">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Expert Review</item>
+                <item name="provider" xsi:type="string">product</item>
+                <item name="sortOrder" xsi:type="number">2</item>
+                <item name="collapsible" xsi:type="boolean">true</item>
+                <item name="opened" xsi:type="boolean">false</item>
+                <item name="ns" xsi:type="string">product_form</item>
+            </item>
+        </argument>
+        <insertListing name="expertreview_listing" >
+            <settings>
+                <dataLinks>
+                    <exports>false</exports>
+                    <imports>true</imports>
+                </dataLinks>
+                <autoRender>true</autoRender>
+                <selectionsProvider>expertreview_listing.expertreview_listing.columns.ids</selectionsProvider>
+                <dataScope>expertreview_listing</dataScope>
+                <ns>expertreview_listing</ns>
+            </settings>
+        </insertListing>
+    </fieldset>
+</form>

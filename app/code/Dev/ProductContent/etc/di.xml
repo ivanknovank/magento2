@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="productcontent_post_listing_data_source" xsi:type="string">productcontent_collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="productcontent_collection"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">product_content</argument>
+            <argument name="resourceModel" xsi:type="string">Dev\ProductContent\Model\ResourceModel\Post</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="get_product_listing_data_source" xsi:type="string">ProductCollection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="ProductCollection" type="Magento\Framework\View\Element\UiComponent\DataProvider\Search\Result">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">catalog_product_entity</argument>
+            <argument name="resourceModel" xsi:type="string">Magento\Catalog\Model\Resource\Model\Product</argument>
+        </arguments>
+    </virtualType>
+    <type name="Dev\ProductContent\Block\Product\View\ProductDetails">
+        <arguments>
+            <argument name="templateProcessor" xsi:type="object">Magento\Widget\Model\Template\Filter</argument>
+        </arguments>
+    </type>
+</config>

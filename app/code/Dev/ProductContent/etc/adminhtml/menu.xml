@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Dev_ProductContent::post" title="Product Content " module="Dev_ProductContent" sortOrder="100"
+             action="productcontent/post/index"
+             resource="Dev_ProductContent::post" parent="Magento_Backend::content_elements"/>
+    </menu>
+</config>

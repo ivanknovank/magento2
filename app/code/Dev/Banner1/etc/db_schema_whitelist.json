@@ -1,0 +1,14 @@
+{
+    "banner1": {
+        "column": {
+            "banner_id": true,
+            "name": true,
+            "short_description": true,
+            "image": true,
+            "status": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

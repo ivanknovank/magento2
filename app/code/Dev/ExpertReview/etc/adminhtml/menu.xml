@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Dev_ExpertReview::expert" title="Expert" module="Dev_ExpertReview" sortOrder="41"
+             resource="Dev_ExpertReview::menu"/>
+        <add id="Dev_ExpertReview::parent" title="Expert Post" module="Dev_ExpertReview" sortOrder="10"
+             resource="Dev_ExpertReview::menu" parent="Dev_ExpertReview::expert"/>
+        <add id="Dev_ExpertReview::post" title="Expert Manage" module="Dev_ExpertReview" sortOrder="10" action="expert/post/index"
+             resource="Dev_ExpertReview::post" parent="Dev_ExpertReview::parent"/>
+        <add id="Dev_ExpertReview::configuration" title="Configuration" module="Dev_ExpertReview" sortOrder="20"
+             parent="Dev_ExpertReview::parent" action="adminhtml/system_config" resource="Dev_ExpertReview::parent"/>
+    </menu>
+</config>

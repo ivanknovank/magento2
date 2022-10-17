@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="banner1" resource="default" engine="innodb" comment="Banner1 Table">
+        <column xsi:type="int" name="banner_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Banner ID"/>
+        <column xsi:type="varchar" name="name" nullable="false" length="64" comment="Name"/>
+        <column xsi:type="varchar" name="short_description" nullable="false" length="64" comment="Short Description"/>
+        <column xsi:type="text" name="image" nullable="false" comment="Image"/>
+        <column xsi:type="text" name="name_image" nullable="false" comment="Name Image"/>
+        <column xsi:type="text" name="url_image" nullable="false" comment="URL Image"/>
+        <column xsi:type="varchar" name="status" nullable="false" length="64" comment="Status"/>
+        <column xsi:type="varchar" name="display_position" nullable="false" length="64" comment="Display Position"/>
+        <column xsi:type="date" name="date" nullable="false" comment="Date"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="banner_id"/>
+        </constraint>
+        <index referenceId="banner1_name" indexType="fulltext">
+            <column name="name"/>
+        </index>
+    </table>
+</schema>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="dev" translate="label" sortOrder="10">
+            <label>Product Content</label>
+        </tab>
+        <section id="setting" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>dev-setting</class>
+            <label>Setting</label>
+            <tab>dev</tab>
+            <resource>Dev_ProductContent::Configuration</resource>
+            <group id="post" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <label>Post Configuration</label>
+                <field id="enable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Module Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="display_text" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
+                       showInStore="1">
+                    <label>Post Content</label>
+                    <comment>This is post content.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
+

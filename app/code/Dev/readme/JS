@@ -1,0 +1,160 @@
+
+
+--------------------------------------------------------------RquireJS------------------------------------------------------------------
+					1.Tổng thể:
+var config = {
+  'map': {...},
+  'paths': {...},
+  'deps':[...],
+  'shim': {...},
+  'config': {
+    'mixins': {...},
+    'text': {...}
+ }
+}
+
+	2.Map dùng để cấu hình các module có thể được sử dụng trong define([], function() { }), bởi alias (bí danh) của nó. Ví dụ:
+
+	map: {
+	     '*': {
+		  alias: 'Vendor_Module/js/complex/path/amd-module'
+	     }
+	}
+
+‘*’ chính là chỉ phạm vi sử dụng alias này, ý nó nói rằng bất kỳ module nào cũng có thể dùng được. Nếu chúng ta không sài alias, chúng ta có thể sài thẳng đường link bên trên khi khai báo trong define().
+
+
+	3.Paths, Cách sử dụng nó khá giống với map nhưng áp dụng được cả cho HTML template và link bên ngoài.
+
+	paths: {
+	  'alias': 'library/file',
+	  'another-alias': 'https://some-library.com/file'
+	}
+
+
+	4.Deps, một cách để quản lý JS dependencies, khi khai báo deps thì tất cả các page đều sẽ load thư viện đó. Ngoài ra còn có cách sử dụng Shim, sẽ được đề cập tiếp theo.
+deps: ['Vendor_Module/js/module']
+
+
+	5.Shim được sử dụng khi cần thêm dependencies tới một thư viện thứ 3, thứ mà ta không modify được, ví dụ: khi bạn sài một thư viện JS hiển thị 3D nào đó, nhưng nó cần có Jquery chẳng hạn, thì ta cần phải sử dụng Shim, nếu ko ta có thể dính lỗi không tìm thấy thư viện được yêu cầu, rất nguy hiểm (một trong những lỗi phổ biến ở Magento 2.0.x). Ngoài việc thêm dependencies, shim còn thay đổi thứ tự Load file, để đảm bảo thư viện được yêu cầu phải được load trước.
+
+	shim: {
+	    '3rd-party-library': ['myJSFile'],
+	    'another-3rd-party-library': {
+		deps: ['myJSFile'],
+		exports: 'another3rdPartyLibrary'
+	    }
+	}
+another-3rd-party-library phụ thuộc vào myJSFile, và có thể được sài giống như alias another3rdPartyLibrary.
+
+
+	6.Mixins, kỹ thuật cực kỳ hữu dụng, cho phép chúng ta ghi đè các phương thức của một AMD module thứ mà trả về UI component, jQuery Widget hay JS object.
+
+	'config': {
+	    'mixins': {
+		'Vendor_Module/js/module': {
+		    'Vendor_Module/js/module-mixin': true
+		}
+	    }
+	}
+	7.Text, được sử dụng để thiết lập security request headers. Ví dụ:
+
+	'config': {
+	    'text': {
+		'headers': {
+		    'X-Requested-With': 'XMLHttpRequest'
+		}
+	    }
+	}
+Nếu không có Cross Origin Resource Sharing (CORS), thì việc thêm vào X-requested-with là bất khả thi. Lỗi này có thể dẫn tới việc trên console của chrome, bạn sẽ nhìn thấy lỗi bôi đỏ liên quan đến cross domain.
+
+
+				2: Mixins và cách sử dụng
+File mixin thường được lưu trong thư mục web/js thuộc frontend, hoặc adminhtml. Về bản chất, nó chính là một AMD module.
+
+Mặc định rằng tất cả các JS mixin file đều đã được khai báo trong requirejs-config.js
+
+	Ví dụ 1: Extend một UI component
+
+define(function () {
+    'use strict';
+
+    var mixin = {
+
+        /**
+         *
+         * @param {Column} elem
+         */
+        isDisabled: function (elem) {
+            return elem.blockVisibility || this._super();
+        }
+    };
+
+    return function (target) { // target == Result that Magento_Ui/.../columns returns.
+        return target.extend(mixin); // new result that all other modules receive
+    };
+});
+	Ví dụ 2: Extends một JQuery widget, ở ví dụ này là modal-widget. Trên thực tế text trong ví dụ sẽ phải dùng một thư viện JS trong Magento 2 để đảm bảo có thể translate sang ngôn ngữ khác. Tuy nhiên ta không sài nó ở đây.
+
+define(['jquery'], function ($) {
+    'use strict';
+
+    var modalWidgetMixin = {
+        options: {
+            confirmMessage: "Please, confirm modal closing."
+        },
+
+
+//          * Added confirming for modal closing
+//          *
+//          * @returns {Element}
+//
+        closeModal: function () {
+            if (!confirm(this.options.confirmMessage)) {
+                return this.element;
+            }
+
+            return this._super();
+        }
+    };
+
+    return function (targetWidget) {
+        // Example how to extend a widget by mixin object
+        $.widget('mage.modal', targetWidget, modalWidgetMixin); // the widget alias should be like for the target widget
+
+        return $.mage.modal; //  the widget by parent alias should be returned
+    };
+});
+	Ví dụ 3: Extend một object, sử dụng khi file Javascript ta muốn can thiệp trả về một đối tượng, trường hợp này, ta cần sử dụng 1 util JS function đó là wrapper. Khi bạn xây dựng module One Step Checkout thì đây là một trong những kỹ thuật cần biết.
+
+define([
+    'mage/utils/wrapper'
+], function (wrapper) {
+    'use strict';
+
+    return function (stepNavigator) {
+        stepNavigator.setHash = wrapper.wrapSuper(stepNavigator.setHash, function (hash) {
+            this._super(hash);
+            // add extended functionality here or modify method logic altogether
+        });
+
+        return stepNavigator;
+    };
+});
+	Ví dụ 4: Extend một function, ta dùng rất nhiều kỹ thuật này trong Magento, đặc biệt hữu dụng trong việc biến đổi function mà không gây nên coding conflict. Dưới đây là 1 đoạn code để biến đổi function trong file nguyên bản dưới đây.
+
+Magento/Checkout/view/frontend/web/js/proceed-to-checkout.js
+
+define([
+    'mage/utils/wrapper'
+], function (wrapper) {
+    'use strict';
+
+    return function (proceedToCheckoutFunction) {
+        return wrapper.wrap(proceedToCheckoutFunction, function (originalProceedToCheckoutFunction, config, element) {
+            originalProceedToCheckoutFunction(config, element);
+            // add extended functionality here
+        });
+    };
+});
+

@@ -1,0 +1,175 @@
+	1. Module
+	1.1 Thư mục chung, thư mục module phổ biến:
++ Block: Chứa các lớp chịu trách nhiệm chuẩn bị dữ liệu để hiển thị thông qua template lên trang web. Nội dung của hầu hết mọi trang Magento 2 được hiển thị thông qua các lớp block.
++ Controller: Chứa các lớp điều khiển php
++ etc: Chứa các tệp cấu hình, đây là thư mục lõi của module chứa file module.xml 1 file bắt buộc.
++ Model: Chứa các lớp mô hình, các mô hình này chịu trách nhiệm làm việc với database, xuất/nhập thông tin từ database và xử lý nó.
++ Setup: Chứa các lớp giúp cấu trúc database module và thiết lập dữ liệu, các hành động này được thực hiện trong quá trình cài đặt hoặc nâng cấp.
++ view: Chứa các file template, file CSS và JS, file layout, mẫu email.
+
+	1.2 Thư mục bổ sung:
++ Api: Chứa những lớp PHP được hiển thị với API.
++ Console: Chứa các lớp chịu trách nhiệm thực hiện các lênh CLI(php bin/magento) trên Magento 2.
++ Cron: Chứa các lớp sử dụng để khởi chạy các tác vụ cron.
++ CustomerData: Chứa các lớp phần trong Magento 2, được sử dụng để lưu trữ thông tin của người dùng, các thông tin được tải qua ajax làm tăng tốc độ tải trang.
++ Helper: Chứa chức năng tổng hợp.
++ i18n: Chứa các tệp CSV để đa ngôn ngữ hóa module.
++ Observer: Chứa các lớp quan sát phản ứng với các sự kiện khác nhau (vd: tạo đơn hàng) để thực hiện một số hoạt động bổ sung.
++ Plugin: Chứa các plugin cần thiết.
++ UI: Chứa các lớp thành phần UI được sử dụng để tiếp nhận, xử lý và hiển thị dữ liệu trong bảng quản trị của trang web.
+
+	2. EAV
++ Entity(Thực thể): Các đối tượng dữ liệu của Magento như sản phẩm, danh mục, khách hàng và đơn đặt hàng được thể hiện dưới dạng thực thể. Trong cơ sở dữ liệu, mỗi thực thể (sản phẩm, danh mục, v.v.) sẽ có bản ghi thực thể riêng.
++ Attribute(Thuộc tính) : Thuộc tính là một phần dữ liệu thuộc về một thực thể cụ thể. Ví dụ, thực thể sản phẩm có các thuộc tính như tên, giá và trạng thái, trong số các thuộc tính khác.
++ Value(Giá trị): Giá trị là giá trị dễ hiểu nhất, vì nó chỉ đơn giản là một giá trị được liên kết với một thuộc tính. Hãy xem xét thực thể sản phẩm để hiểu rõ hơn. Một tập hợp các thuộc tính sẽ được gán cho mỗi thực thể sản phẩm, một trong số đó là thuộc tính tên. Sau đó, thuộc tính name sẽ có một giá trị cho từng sản phẩm (và tất cả các thuộc tính khác).
+
+	3. ORM
++ Models sẽ chịu trách nhiệm làm việc với database, và được chia thành ba phần là Model, Resource Model và Collection. Được sử dụng để làm việc với các hoạt động CRUD(create, read, update, delete), bạn không cần phải viết bất kỳ một dòng code SQL nào nữa.
+	- Một Model thì sẽ extends class AbstractModel và nó gọi phương thức _init và truyền vào một Resource Model như là một đối số để lấy thông tin từ cơ sở dữ liệu. Model sẽ làm việc với cơ sở dữ liệu thông qua resource model.
++ Resource Model sẽ extends class AbstractDb, gọi phương thức _init và truyền vào hai đối số là tên bảng của bạn và khóa chính của bảng. Model sẽ chứa logic tổng thể làm việc với database, nó không thực thi bất kì câu lệnh truy vấn SQL nào cả mà Resource Model sẽ làm điều đó. Resource Model sẽ làm việc trực tiếp với database CRUD(create, read, update, delete).
++ Collection phải extends class AbstractCollection và truyền vào phương thức _init hai đối số là model và resource model chúng ta vừa tạo.
+
+==> Kết luận:  + Model: Chứa logic tổng thể làm việc với database thông qua resource model
+		+ Resource model: Làm việc trực tiếp với database (CRUD)
+		+ Collection: Có thể get một tập hợp model và được sử dụng khi bạn muốn lấy nhiều dòng dữ liệu. Model chỉ có thể load 1 record.
+		+ Factory: Magento sẽ tự động tạo một class trong generated, Magento sẽ tạo một bản nháp và làm việc với nó. Ví dụ: PostFactory, CollectionFactory…
+
+	4. Layout, Container, Block
++ Layout dùng để mô tả cấu trúc của trang web.
++ Container dùng để tạo nên các thành phần của trang. Nó có thể chứa block và các container khác.
++ Block được dùng để render ra nội dung html của trang được chứa trong các file templates .phtml
+
+	5. Plugin
++ Plugin là một class có thể sửa đổi hành vi của bất kỳ một phương thức public nào bằng cách chặn lệnh gọi tới phương thức ban đầu và thực hiện logic của bạn. Điều này cho phép ghi đè hoặc mở rộng phương thức public ban đầu mà không ảnh hưởng đến phương thức đó.
++ Hạn chế của plugin:
+	- Class hoặc phương thức final.
+	- Phương thức không phải public.
+	- Virtual types.
+	- __construct, __destruct.
+	- Class hoặc phương thức static.
++ Quy ước đặt tên:
+	- before + 'name' (thay đổi số đầu vào) : Phương thức before sẽ chạy trước phương thức mà nó sẽ tác động đến. Tên của nó phải trùng tên của phương thức gốc và có tiền tố before ở phía trước.
+	- after + 'name'(thay đổi kết quả trả về) : Phương thức after sẽ chạy sau phương thức mà nó tác động đến chạy xong. Tên của nó phải trùng tên của phương thức gốc và có tiền tố after ở phía trước. Phương thức after có thể sử dụng để thay đổi kết quả trả về của phương thức ban đầu bằng cách thay đổi nó và trả về giá trị thay đổi ở cuối phương thức.
+	- around + 'name'(có thể thay đổi số đầu vào, kết quả trả về và ghi đè lên phương thức gốc) : Phương thức around sẽ chạy trước và sau phương thức ban đầu. Nó cho phép bạn có thể sửa đổi số đầu vào, kết quả trả về thậm chí ghi đè lên phương thức ban đầu. Tên của nó phải trùng tên của phương thức gốc và có tiền tố around ở phía trước.
+		+) Phương thức around có điểm đặc điểm là callable (có thể gọi). Nó sẽ nhận một cable có thể gọi đến phương thức tiếp theo trong chuỗi hoặc phương thức ban đầu. Nếu callable không được gọi thì tất cả các phương thức tiếp theo trong chuỗi sẽ không chạy.
+
+	6. Admin Grid
++ Admin Grid được sử dụng để đại diện, lọc và sắp xếp các dữ liệu khác nhau trong ứng dụng Quản trị nguồn mở của Adobe Commerce và Magento. Chúng cũng được sử dụng để thực hiện các hành động hàng loạt như cập nhật và xóa.
+	
+	7. di.xml
+	+ Ghi đè lên một class cụ thể với preference node.
+	+ Tạo mới hoặc thay thế một đối số trong constructor của một class với arguments.
+	+ Thay đổi hành vi của một class với before, after và arround Plugin.
+	+ Tạo một class con của một class khác với virtualType node.
+
++ Type truyền vào class mà tôi muốn thay đổi đối số. Sau đó sử dụng arguments khai báo một biến là a trùng với biến ở contructor mà tôi muốn thay thế có giá trị là 2 và kiểu dữ liệu là string.
++ Virtrual Type có tạo một class ảo của một class cha. Hay nói cách khác virtualType có thể dùng để tạo một class con của một class khác mà không làm ảnh hưởng đến class đó.
+	
+	8. Controller
++ json Đặt Content-Type:application/jsontrong tiêu đề và trả về một biểu diễn được mã hóa json của một mảng có dữ liệu
++ raw Trả về dữ liệu như đã được thiết lập. Không đặt một Content-Typetrong tiêu đề
++ redirect	Tạo một chuyển hướng bên ngoài, mà trình duyệt theo dõi và yêu cầu một url mới
++ forward	Nội bộ gọi phương thức thực thi của một lớp hành động khác và không kích hoạt yêu cầu mới từ trình duyệt. URL vẫn giữ nguyên
++ layout	Xem kết quả. Bạn có thể sử dụng phản hồi bố cục chung để hiển thị bất kỳ loại bố cục nào. Bố cục bao gồm một nội dung phản hồi từ các phần tử bố cục của nó và đặt nó thành phản hồi HTTP
++ page	Xem kết quả. Đóng gói loại trang, cấu hình trang và áp đặt các chốt bố cục nhất định. pagekích hoạt layout.xmlđể hiển thị thành HTML
+	9. EAV là một mô hình đáp ứng được việc xây dựng hệ thống yêu cầu có sự tùy biến các thuộc tính của bảng thường xuyên tăng.Điểm mạnh của mô hình cơ sở dữ liệu này là có tính tùy biến tính mở rộng cao, không bị dư thừa dữ liệu.
+	Ví dụ: một bảng users: gồm các trường bắt buộc phải có và không thay đổi nhưng (name, email, password...) bảng này trong mô hình EAV gọi là bảng Entity (thực thể)
+	Một bảng user_attribute : có các dữ liệu là id và attribute_name (có 1 phần tử id = 1, attribute_name = User email)
+	Một bảng value: gồm các phần tử: value_id, attribute_id, user_id, value. trong đó attribute_id = 1, value = user@email.com. Ta có thể thấy được user có id là 1 có email là user@email.com.
+_____________________File di.xml (Dependency Injection)__________________________
+- File di.xml định cấu hình phần phụ thuộc nào được đưa vào bởi trình quản lý đối tượng. Cũng có thể chỉ định cài đặt cấu hình nhạy cảm bằng di.xml
+- Mỗi module có thể có một file di.xml toàn cầu hoặc từng area. App đọc tất cả các tệp cấu hình di.xml được khai báo trong hệ thống và hợp nhất chúng lại với nhau bằng cách nối tất cả các nút
+- Ứng dụng tải cấu hình trong các giai đoạn sau:
+    + initial (app/etc/di.xml)
+    + Global (<module>/etc/di.xml)
+    + Area-specific (module/etc/are/di.xml)
+→ Các areas gồm: adminhtml, frontend, webapi_rest, v.v
+- Trong quá trình khởi động, mối điểm vào ứng dụng sẽ tải các tệp di.xml thích hợp cho khu vực được yêu cầu
+- type configuration: mô tả một object’s lifestyle và cách khởi tạo nó
+    + có thể định cấu hình type trong các di.xml configuration node
+
+
+_________________________________Plugin__________________________________________
+- Plugin: là một class có thể sửa đổi hành vi của bất kì một phương thức public nào bằng cách chặn lệnh gọi
+ đến phương thức ban đầu và thực hiện logic. Điều này cho phép mở rộng, thậm chí ghi đè lên phương thức public ban đầu mà không ảnh hưởng đến phương thức đó
+    + phương thức before: Chạy trước phương thức mà nó tác động đến, có thể sử dụng để thay đổi đối số đầu vào của phương thức gốc. Nếu có nhiều hơn 1 đối số thì phương thức sẽ trả về một mảng các đối số. Nếu k có sẽ trả về giá trị null
+    + phương thức after: Chạy sau khi phương thức gốc đã chạy xong. Bắt buộc phải có giá trị trả về. Dùng để thay đổi kết quả trả về của phương thức ban đầu bằng cách thay đổi nó và trả về giá trị đã thay đổi ở cuối phương thức
+    + phương thức around: Chạy trước và sau phương thức ban đầu. Cho phép có thể sửa đổi đối số đầu vào, kết quả trả về và thậm chí ghi đè lên phương thức ban đầu. Phương thức around phải có tên trung với tên phương thức gốc và có tiền tố around. Phương thức around có một điểm đặc biệt đòs là callable có thể gọi đến phương thức tiếp theo trong chuỗi hoặc phương thưcs ban đầu. Nếu callable không đưcọ gọi thì tất cả các phương thức tiếp theo trong chuỗi sẽ không chạy => chỉ sử dụng khi phương thức gốc cần chấm dứt
+- Trường hợp có nhiều plugin cùng tác động lên 1 phương thức thì thứ tự của plugin chạy theo thuộc tính sortOrder. Nhưng nếu không có thuộc tính sortOrder thì nó sẽ chạy theo thứ tự load của module(app/etc/config.php)
+- Hạn chế của plugin:
+    + Class hoặc phương thức final
+    + phương thức không phải là public
+    + virtual types
+    + __construct __destruct
+    + Class hoặc phuongư thức static
+
+__________________________________Events and Observers____________________________
+- Làm việc với Events và Observers là một trong các cách để mở rộng chức năng của Magento. Bằng cách sử dụng Event và Observers có thể chạy code khi một event của Magento được gửi đi hoặc thậm chí là Event tự tạo
+- Events: Được gửi bởi module khi một hành động nhất định được kích hoạt. Ngoài ra, Magento còn cho pheps tạo Events và có thể gửi đi trong code của mk. Khi một events được gửi đi nó có thể truyền bất kì dữ liệu nào cho Observers bắt nó.
+- Dispatch Event: Events được gửi đi bằng cách suử dụng class Magento\Framework\EventInterface. để gửi một event cần sử dụng class event manager gọi phương thức dispatch, cung cấp tên Event và một mảng dữ liệu muốn gửi đi cho observer
+
+
+_____________________________________Indexing____________________________________
+- Indexing là cách mà magento chuyển đổi dữ liệu chẳng hạn như products, hoặc categories, nhằm cải thiện hiệu suất cửa hàng. Khi data thay đổi thì data trong các index cần cập nhật hoặc lập chỉ mục lại (indexing).Để tối ưu hóa hiệu suất cửa hàng, magento sẽ đưa dữ liệu vào các bảng đặc biệt bằng cách sử dụng indexers
+
+
+
+__________________________________RequireJS in Commerce__________________________
+* js resource in commerce
+- RequireJS là một tệp js và trình tải module. Nó cải thiện thời gian tải trang cảm nhận được vì nó cho phép js tải ở chế độ nền. Đặc biệt, nó cho phép tải js không đồng bộ.
+- Có thể tìm thấy các thành phần JS ở các cấp độ sau:
++ Library Level (lib/web). Các tài nguyên ở đây có sẵn ở bất kì nơi nào trong ứng dụng.
+→ chỉ có thể chứa các tài nguyên ứng dụng cốt lõi. Không được đặt các tệp Js tùy chỉnh vào đây
++ Module Level .Nếu module được bật, các tài nguyên được thêm vào đây sẽ có sẵn trong các module và theme khác
++ Theme level, cho một module cụ thể (<theme_dir>/<VendorName>_<ModuleName>/web). Các tài nguyên được thêm vào đây có sẵn cho các chủ đề[kế thừa].
++ Theme level (<theme_dir>/web). Tài nguyên được thêm ở đây có sẵn để kế thừa các chủ đề
+- Specifying JS
+→ Nên chỉ định các tài nguyên Js trong các mẫu thay vì trong các bản cập nhật layout, để đảm bảo rằng các tài nguyên đó có sẵn cho nội dung của một trang.
+- Truy cập resource: Các JS resource được truy cập bằng cách sử dụng các đường dẫn tương đối.
+- Dependency:
+- RequireJs library:
++ Include RequireJs: Để có sẵn cho toàn bộ phiên bản ứng dụng, thư viện RequireJs được bao gồm trong các tệp layout sau:
+. Đối với adminhtml area: app/code/Magento/Backend/view/adminhtml/layout/default.xml
+. Đối với frontend area: cấu hình tương đương nằm ở: app/code/Magento/Theme/view/frontend/layout/default.xml
+
+
+
+* RequireJs là một thư viện cho phép có thể module hóa code Js. RequireJs triển khai theo phương thức AMD có thể load các module và load các phần phụ thuộc của nó không đồng bộ
+- RequireJS là một tệp js và trình tải module. Nó cải thiện thời gian tải trang cảm nhận được vì nó cho phép js tải ở chế độ nền. Đặc biệt, nó cho phép tải js không đồng bộ.
+- RequireJs có hai phương thức
++ define: dùng để định nghĩa module;
++ require: dùng để load module và các phần phụ thuộc
+. hàm require yêu cầu 2 đối số, 1 là các depedence cần sd (vd cần sd jquery thì thêm jquery vào mảng này). Sau đó requireJs sẽ truyền các module object vào đối số thứ 2
+* configuration: Tất cả các cấu hình được thực hiện trong tệp requriejs-config.js . Nó có một cấu hình đối tượng gốc duy nhất chứa các tùy chọn cấu hình. Tất cả các cài đặt cấu hình là tùy chọn và chỉ được sử dụng khi yêu cầu
+    1. map: Cấu hình map ánh xạ (kết nối) bất kì module AMD thực nào gọi difine(), đến bí danh được chỉ định.
+    • Có 2 loại ngữ cảnh, ngữ cảnh toàn cục, ngữ cảnh module cụ thể (có thể áp dụng cả hai loại ngữ cảnh)
+       * có nghĩa là tất cả các module RequireJs đã tải có thể sử dụng bí danh được chỉnh định (toàn cục)
+	- ngữ cảnh module cụ thể: vd Vendor_Module / js / amd-module
+    2. paths: paths configuration tương tự như map, được sd làm bí danh không chỉ cho bất kì module AMD thực nào gọi difine(), mà còn bất kì tệp JS nào (ngay cả từ một URL), các template HTML, v.v
+       - Ứng dụng sử dụng cho các URL bí danh và các thư viện bên thứ 3
+       - Khi đặt đường dẫn đến một mảng có nhiều nguồn tập lệnh, nếu tập lệnh đầu tiên không tải được, tập lệnh tiếp theo sẽ được sử dụng làm dự phòng
+    3. deps: Cấu hình deps được sử dụng để thêm một số phụ thuộc. Nó có thể được sử dụng trực tiếp trong var config = {} hoặc trong cấu hình shim. Theo module cấu hình deps độc lập sẽ tải các module được chỉ định trong tất cả các trang
+    4. Cấu hình shim được sử dụng để xây dựng sự phụ thuộc vào thư viện của bên thứ ba, vì không thể sửa đổi nó
+       - Khi nào sử dụng nó: Để thêm phần phụ thuộc mới vào thư viện của bên thứ 3
+       - Để thêm phần phụ thuộc mới vào thư viện của bên thứ 3 không sử dụng module AMD
+       - Để thay đổi thứ tự tải bằng cách thêm phần phụ thuộc vào thư viện của bên thứ 3
+    5. Mixins : Được sử dụng để ghi đè các phương thức thành phần của module AMD, cấu hình này trả về thành phần UI, tiện ích jquery hoặc đối tượng js.
+    6. Text:  được sử dụng để đặt tiêu đề yêu cầu bảo mật bằng tệp text.js
+
+________________________________Call and initialize JS_______________________________
+
+* có 2 cách để gọi và khởi tạo js
+- chèn 1 js component vào template .phtml
+- Gọi các thành phần yêu cầu khởi tạo 
+Tùy vào nhiệm vụ, có thể sd declarative or imperative notatiton để chèn js component vào template phtml
++ Sử dụng declarative nếu một thành phần yêu cầu khởi tạo
+Sử dụng kí hiệu khai báo để chèn một thành phần JS chuẩn bị tất cả cấu hình trên phần phụ trợ và xuất nó ra nguồn trang bằng các công cụ tiêu chuẩn. Sử dụng kí hiệu khai báo nếu thành phần js yêu cầu khởi tạo
+1. có hai cách để chỉnh định kí hiệu khai báo
+- sử dụng thuộc tính data-mage-init
+- sử dụng thẻ script
+
++ sử dụng imperative trong các trường hợp khác
+- Gọi js components yêu cầu khởi tạo trong tệp js (.js)
+→ Nên sử dụng các cách tiếp cận như trên và không thêm js inline
+
+

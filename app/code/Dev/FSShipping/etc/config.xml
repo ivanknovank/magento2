@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <carriers>
+            <fsshipping>
+                <active>1</active>
+                <title>FS Shipping</title>
+                <name>FS Shipping</name>
+                <shipping_cost>10</shipping_cost>
+                <setfreeshipping>200</setfreeshipping>
+                <sort_order>15</sort_order>
+                <model>Dev\FSShipping\Model\Carrier\FSShipping</model>
+                <specificerrmsg>In Store Delivery is not available. To use this delivery method, please contact us
+                </specificerrmsg>
+            </fsshipping>
+        </carriers>
+    </default>
+</config>

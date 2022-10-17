@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">expertreview_form.expertreview_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Post Information</item>
+        <item name="reverseMetadataMerge" xsi:type="boolean">true</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <namespace>expertreview_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>expertreview_form.expertreview_form_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="expertreview_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+<!--        <settings>-->
+<!--            <submitUrl path="*/*/save"/>-->
+<!--        </settings>-->
+        <dataProvider class="Dev\ExpertReview\Model\Config\ExpertReview" name="expertreview_form_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>expert_review_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <dynamicRows name="dynamic_rows">
+        <settings>
+            <addButtonLabel translate="true">Add New Review</addButtonLabel>
+            <additionalClasses>
+                <class name="admin__field-wide">true</class>
+            </additionalClasses>
+            <componentType>dynamicRows</componentType>
+        </settings>
+        <container name="record" component="Magento_Ui/js/dynamic-rows/record">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="isTemplate" xsi:type="boolean">true</item>
+                    <item name="is_collection" xsi:type="boolean">true</item>
+                    <item name="componentType" xsi:type="string">container</item>
+                </item>
+            </argument>
+            <field name="title" formElement="input">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="fit" xsi:type="boolean">false</item>
+                    </item>
+                </argument>
+                <settings>
+                    <validation>
+                        <rule name="required-entry" xsi:type="boolean">true</rule>
+                    </validation>
+                    <dataType>text</dataType>
+                    <label>Title</label>
+                </settings>
+            </field>
+            <field name="short_description" formElement="input">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="fit" xsi:type="boolean">false</item>
+                    </item>
+                </argument>
+                <settings>
+                    <validation>
+                        <rule name="required-entry" xsi:type="boolean">true</rule>
+                    </validation>
+                    <dataType>text</dataType>
+                    <label>Short Description</label>
+                </settings>
+            </field>
+            <field name="video" formElement="input">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="fit" xsi:type="boolean">false</item>
+                    </item>
+                </argument>
+                <settings>
+                    <validation>
+                        <rule name="required-entry" xsi:type="boolean">true</rule>
+                    </validation>
+                    <dataType>text</dataType>
+                    <label>Video</label>
+                </settings>
+            </field>
+            <field name="detail" formElement="wysiwyg">
+                <argument name="data" xsi:type="array">
+                    <item name="input" xsi:type="string">textarea</item>
+                    <item name="config" xsi:type="array">
+                        <item name="wysiwygConfigData" xsi:type="array">
+                            <item name="height" xsi:type="string">100px</item>
+                            <item name="formElement" xsi:type="string">textarea</item>
+                        </item>
+                    </item>
+                </argument>
+                <settings>
+                    <label>Detail</label>
+                </settings>
+                <formElements>
+                    <wysiwyg>
+                        <settings>
+                            <wysiwyg>true</wysiwyg>
+                        </settings>
+                    </wysiwyg>
+                </formElements>
+            </field>
+        </container>
+    </dynamicRows>
+</form>

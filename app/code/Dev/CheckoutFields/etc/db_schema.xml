@@ -1,0 +1,9 @@
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="quote" resource="default" engine="innodb" comment="Quote Table">
+        <column xsi:type="varchar" name="donatefield" length="64" comment="Donate"/>
+    </table>
+    <table name="sales_order" resource="default" engine="innodb" comment="Sales Order Table">
+        <column xsi:type="varchar" name="donatefield" length="64" comment="Donate"/>
+    </table>
+</schema>

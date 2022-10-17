@@ -1,0 +1,13 @@
+<ul class="show donate">
+    <?php
+    $order = $block->myFunction();
+    if ($order['donatefield']>0) {
+        ?>
+        <h2 style="color: #333333">Donate Method</h2>
+        <hr width="100%" size="0.5px" align="right" color="#cccccc"/>
+        <h3 style="color: #333333">Donate Information</h3>
+        <p>Customer Donate For Store: $<?php echo round($order['donatefield'], 2) ?></p>
+    <?php
+    } ?>
+</ul>
+
